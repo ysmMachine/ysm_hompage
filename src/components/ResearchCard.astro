@@ -31,18 +31,91 @@ const { title, subtitle, summary, href, image, metrics, tags = [], pdf } = Astro
     </a>
   </div>
   {pdf ? (
-    <div class="overflow-hidden rounded-md border border-line bg-slate-50">
-      <iframe
-        src={`${pdf}#page=1&view=FitH`}
-        title={`${title} paper PDF`}
-        class="h-[620px] w-full bg-white"
-        loading="lazy"
-      ></iframe>
+    <div class="overflow-hidden rounded-md border border-line bg-slate-50" data-pdf-viewer data-pdf-url={pdf}>
+      <div class="flex items-center justify-between gap-3 border-b border-line bg-white px-3 py-2">
+        <button type="button" data-pdf-prev class="rounded-md border border-line px-3 py-1 text-xs font-black text-ink">Prev</button>
+        <span class="text-xs font-black text-muted" data-pdf-status>Loading paper...</span>
+        <button type="button" data-pdf-next class="rounded-md border border-line px-3 py-1 text-xs font-black text-ink">Next</button>
+      </div>
+      <div class="grid min-h-[620px] place-items-start overflow-auto bg-slate-100 p-4">
+        <canvas data-pdf-canvas class="mx-auto rounded-sm bg-white shadow-sm"></canvas>
+      </div>
       <div class="border-t border-line bg-white px-4 py-3 text-xs font-bold text-muted">
-        PDF viewer · <a href={pdf} class="text-accent">Open full paper</a>
+        PDF.js viewer · <a href={pdf} class="text-accent">Open full paper</a>
       </div>
     </div>
   ) : (
     <img src={image} alt={`${title} figure`} class="h-full min-h-72 w-full rounded-md border border-line bg-slate-50 object-contain p-2" loading="lazy" />
   )}
 </article>
+
+<script>
+  import * as pdfjsLib from "pdfjs-dist";
+  import pdfWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
+
+  const viewers = document.querySelectorAll("[data-pdf-viewer]");
+
+  viewers.forEach(async (viewer) => {
+    const url = viewer.getAttribute("data-pdf-url");
+    const canvas = viewer.querySelector("[data-pdf-canvas]");
+    const status = viewer.querySelector("[data-pdf-status]");
+    const prev = viewer.querySelector("[data-pdf-prev]");
+    const next = viewer.querySelector("[data-pdf-next]");
+
+    if (!(url && canvas instanceof HTMLCanvasElement && status && prev instanceof HTMLButtonElement && next instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    let pdfDoc;
+    let pageNumber = 1;
+    let rendering = false;
+
+    const renderPage = async () => {
+      if (!pdfDoc || rendering) return;
+      rendering = true;
+      status.textContent = `Page ${pageNumber} / ${pdfDoc.numPages}`;
+
+      const page = await pdfDoc.getPage(pageNumber);
+      const baseViewport = page.getViewport({ scale: 1 });
+      const container = viewer.querySelector(".overflow-auto");
+      const containerWidth = container instanceof HTMLElement ? container.clientWidth - 28 : 460;
+      const cssScale = Math.min(containerWidth / baseViewport.width, 1.35);
+      const outputScale = Math.min(window.devicePixelRatio || 1, 2);
+      const viewport = page.getViewport({ scale: cssScale * outputScale });
+
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+      canvas.style.width = `${Math.floor(baseViewport.width * cssScale)}px`;
+      canvas.style.height = `${Math.floor(baseViewport.height * cssScale)}px`;
+
+      await page.render({ canvasContext: context, viewport }).promise;
+      prev.disabled = pageNumber <= 1;
+      next.disabled = pageNumber >= pdfDoc.numPages;
+      rendering = false;
+    };
+
+    try {
+      pdfDoc = await pdfjsLib.getDocument(url).promise;
+      await renderPage();
+      prev.addEventListener("click", async () => {
+        if (pageNumber > 1) {
+          pageNumber -= 1;
+          await renderPage();
+        }
+      });
+      next.addEventListener("click", async () => {
+        if (pdfDoc && pageNumber < pdfDoc.numPages) {
+          pageNumber += 1;
+          await renderPage();
+        }
+      });
+    } catch {
+      status.textContent = "Open full paper";
+    }
+  });
+</script>
