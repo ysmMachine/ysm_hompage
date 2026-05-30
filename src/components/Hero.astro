@@ -4,7 +4,7 @@ import MetricCard from "./MetricCard.astro";
 const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 ---
 
-<section class="mx-auto grid max-w-6xl gap-8 px-5 pb-14 pt-12 lg:grid-cols-[1fr_0.9fr] lg:pb-20 lg:pt-16">
+<section class="mx-auto grid max-w-7xl gap-8 px-5 pb-14 pt-12 lg:grid-cols-[0.9fr_1.1fr] lg:pb-20 lg:pt-16">
   <div class="flex flex-col justify-center">
     <p class="text-sm font-black uppercase tracking-[0.18em] text-accent">Edge AI & Applied ML Lab Notebook</p>
     <h1 class="mt-4 text-4xl font-black leading-tight text-ink sm:text-5xl">
@@ -29,15 +29,34 @@ const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL :
       <MetricCard value="4.08" label="GPA" detail="4.5 scale" />
     </div>
   </div>
-  <div class="relative min-h-[520px] overflow-hidden rounded-lg border border-line bg-white shadow-soft evidence-grid">
-    <img src={`${base}assets/papers/microforest-overview.png`} alt="MicroForest overview preview" class="absolute inset-x-0 top-0 h-[365px] w-full object-contain p-6 opacity-85" />
-    <div class="absolute inset-0 bg-gradient-to-br from-white/10 via-white/35 to-white/80"></div>
-    <div class="absolute bottom-0 left-0 right-0 border-t border-line bg-white/92 p-5 backdrop-blur">
+  <div class="overflow-hidden rounded-lg border border-line bg-white shadow-soft">
+    <div class="border-b border-line bg-slate-50 p-4 evidence-grid">
+      <img src={`${base}assets/papers/microforest-overview.png`} alt="MicroForest overview preview" class="mx-auto w-full max-w-[1125px] object-contain" />
+    </div>
+    <div class="p-5">
       <p class="text-xs font-black uppercase tracking-[0.18em] text-accent">Featured Evidence</p>
-      <h2 class="mt-2 text-xl font-black text-ink">MicroForest: compact multi-task bottleneck prediction</h2>
-      <p class="mt-2 text-sm leading-6 text-muted">
-        Baseline RFs -> Split Pool -> MTConstructor -> MicroForest. A research-board preview of the architecture behind the journal paper.
+      <h2 class="mt-2 text-2xl font-black leading-tight text-ink">MicroForest: compact multi-task bottleneck prediction</h2>
+      <p class="mt-3 text-sm leading-6 text-muted">
+        Baseline RFs -> SplitSelector -> Split Pool -> MTConstructor -> MicroForest. 여러 task별 Random Forest에서 핵심 split rule만 추출해 compact MicroTree ensemble로 재구성합니다.
       </p>
+      <div class="mt-5 grid gap-3 sm:grid-cols-2">
+        <div class="rounded-md border border-line bg-paper p-3">
+          <p class="text-xs font-black uppercase tracking-[0.14em] text-accent">Compression</p>
+          <p class="mt-1 text-sm font-extrabold text-ink">Two orders smaller model size</p>
+        </div>
+        <div class="rounded-md border border-line bg-paper p-3">
+          <p class="text-xs font-black uppercase tracking-[0.14em] text-teal">Latency</p>
+          <p class="mt-1 text-sm font-extrabold text-ink">Up to 7.2x faster inference</p>
+        </div>
+        <div class="rounded-md border border-line bg-paper p-3">
+          <p class="text-xs font-black uppercase tracking-[0.14em] text-accent">Recall</p>
+          <p class="mt-1 text-sm font-extrabold text-ink">+34%p vs Random Forest</p>
+        </div>
+        <div class="rounded-md border border-line bg-paper p-3">
+          <p class="text-xs font-black uppercase tracking-[0.14em] text-teal">Scale</p>
+          <p class="mt-1 text-sm font-extrabold text-ink">Evaluated up to 150 tasks</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>

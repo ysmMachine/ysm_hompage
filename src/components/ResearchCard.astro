@@ -7,9 +7,10 @@ interface Props {
   image: string;
   metrics: string[];
   tags?: string[];
+  pdf?: string;
 }
 
-const { title, subtitle, summary, href, image, metrics, tags = [] } = Astro.props;
+const { title, subtitle, summary, href, image, metrics, tags = [], pdf } = Astro.props;
 ---
 
 <article class="grid gap-6 rounded-lg border border-line bg-white p-5 shadow-sm lg:grid-cols-[1.05fr_0.95fr]">
@@ -29,5 +30,19 @@ const { title, subtitle, summary, href, image, metrics, tags = [] } = Astro.prop
       Case Study
     </a>
   </div>
-  <img src={image} alt={`${title} figure`} class="h-full min-h-72 w-full rounded-md border border-line bg-slate-50 object-contain p-2" loading="lazy" />
+  {pdf ? (
+    <div class="overflow-hidden rounded-md border border-line bg-slate-50">
+      <iframe
+        src={`${pdf}#page=1&view=FitH`}
+        title={`${title} paper PDF`}
+        class="h-[620px] w-full bg-white"
+        loading="lazy"
+      ></iframe>
+      <div class="border-t border-line bg-white px-4 py-3 text-xs font-bold text-muted">
+        PDF viewer · <a href={pdf} class="text-accent">Open full paper</a>
+      </div>
+    </div>
+  ) : (
+    <img src={image} alt={`${title} figure`} class="h-full min-h-72 w-full rounded-md border border-line bg-slate-50 object-contain p-2" loading="lazy" />
+  )}
 </article>
