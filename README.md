@@ -30,7 +30,7 @@ Repository Settings에서 Pages source를 **GitHub Actions**로 설정하세요.
 Expected public URL:
 
 ```txt
-https://seowool55.github.io/ysm_hompage/
+https://ysmMachine.github.io/ysm_hompage/
 ```
 
 ## Evidence Assets
