@@ -1,0 +1,38 @@
+---
+const nav = [
+  { href: "/", label: "Home" },
+  { href: "/research/", label: "Research" },
+  { href: "/projects/", label: "Projects" },
+  { href: "/notes/", label: "Lab Notes" },
+  { href: "/resume/", label: "Resume" }
+];
+
+const current = Astro.url.pathname.replace(import.meta.env.BASE_URL, "/");
+const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const withBase = (href) => `${base}${href.replace(/^\//, "")}`;
+---
+
+<header class="sticky top-0 z-50 border-b border-line/80 bg-white/88 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+    <a href={withBase("/")} class="flex items-center gap-3 text-sm font-black tracking-0 text-ink">
+      <span class="grid h-9 w-9 place-items-center rounded-md bg-ink text-white">YS</span>
+      <span>Yu Seungmin</span>
+    </a>
+    <nav class="hidden items-center gap-1 md:flex">
+      {nav.map((item) => {
+        const active = current === item.href || (item.href !== "/" && current.startsWith(item.href));
+        return (
+          <a
+            href={withBase(item.href)}
+            class:list={[
+              "rounded-md px-3 py-2 text-sm font-bold transition",
+              active ? "bg-blue-50 text-accent" : "text-slate-600 hover:bg-slate-100 hover:text-ink"
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+  </div>
+</header>

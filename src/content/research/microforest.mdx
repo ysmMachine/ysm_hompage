@@ -1,0 +1,42 @@
+---
+title: "MicroForest"
+description: "Lightweight Bottleneck Prediction for Manufacturing Processes on Edge Devices"
+summary: "MicroForest architecture: extracting high-information-gain split rules from baseline Random Forests and reconstructing compact MicroTrees."
+date: "2025-07-01"
+tags: ["International Journal", "Edge AI", "Random Forest Compression"]
+image: "assets/papers/microforest-overview.png"
+order: 1
+---
+
+## Overview
+
+MicroForest는 제조 공정의 다중 병목 예측을 위해 설계한 경량 예측 모델입니다. task별 Random Forest에서 정보 획득량이 높은 split rule을 추출하고, 이를 compact MicroTree들로 재구성해 edge device에서도 예측 가능한 구조를 만듭니다.
+
+## Problem
+
+제조 공정은 DAG 기반 workflow, buffer occupancy, cycle-level production state처럼 시간에 따라 변하는 구조를 갖습니다. 기존 Random Forest는 성능은 좋지만 모델 크기와 추론 지연이 커서 edge 환경에 그대로 올리기 어렵습니다.
+
+## Method
+
+Baseline RFs에서 핵심 split만 모아 Split Pool을 만들고, MTConstructor가 task 그룹별 MicroTree를 구성합니다. 여러 MicroTree의 ensemble이 MicroForest가 되며, 각 MicroTree는 특정 병목 task를 독립적으로 예측합니다.
+
+## Results
+
+- +34%p recall vs Random Forest
+- Up to 7.2x faster inference latency
+- Two orders of magnitude smaller model size
+- Evaluated up to 150 production tasks
+- F1 = 0.74 at 150-task setting
+
+## My Role
+
+Conceptualization, Methodology, Software, Original Draft에 기여했습니다. 모델 구조 설계, 실험 구현, 결과 분석, 논문 초안 작성까지 연구의 핵심 흐름을 담당했습니다.
+
+## What I Learned
+
+단순히 모델을 작게 만드는 것보다, 어떤 정보를 남기고 어떤 복잡도를 제거할지 정의하는 일이 중요했습니다. MicroForest는 모델 압축이 아니라 제조 병목 예측 문제의 구조를 다시 설계하는 작업에 가까웠습니다.
+
+## Limitations & Next Steps
+
+시뮬레이션 기반 평가를 넘어 실제 공정 데이터에서의 robustness를 더 검증해야 합니다. 다음 단계는 real manufacturing data에 대한 domain shift 분석과 threshold selection 자동화입니다.
+

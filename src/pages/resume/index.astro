@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Resume | Yu Seungmin">
+  <section class="mx-auto max-w-6xl px-5 py-12">
+    <p class="text-sm font-black uppercase tracking-[0.18em] text-accent">Resume</p>
+    <h1 class="mt-3 text-4xl font-black text-ink">Resume & Contact</h1>
+    <p class="mt-4 max-w-3xl leading-7 text-muted">PDF와 editable DOCX를 함께 제공합니다. 사이트의 연구·프로젝트 페이지는 이력서의 핵심 항목을 evidence archive로 확장합니다.</p>
+    <div class="mt-10 grid gap-6 lg:grid-cols-[0.78fr_1fr]">
+      <div class="rounded-lg border border-line bg-white p-5 shadow-sm">
+        <img src={`${base}assets/resume/resume-thumbnail.png`} alt="Resume thumbnail" class="w-full rounded-md border border-line" />
+      </div>
+      <div class="rounded-lg border border-line bg-white p-6 shadow-sm">
+        <h2 class="text-2xl font-black text-ink">유승민 · Yoo Seungmin</h2>
+        <p class="mt-2 font-bold text-accent">Edge AI / Applied ML / Computer Vision</p>
+        <p class="mt-5 leading-7 text-slate-700">제조 병목 예측, 경량 모델 압축, 의료영상 AI 파이프라인을 중심으로 연구와 구현 경험을 쌓아왔습니다.</p>
+        <div class="mt-6 grid gap-3 sm:grid-cols-3">
+          <div class="rounded-md bg-paper p-4"><p class="text-2xl font-black">1</p><p class="text-sm font-bold text-muted">International Journal</p></div>
+          <div class="rounded-md bg-paper p-4"><p class="text-2xl font-black">TOPCIT</p><p class="text-sm font-bold text-muted">National Award</p></div>
+          <div class="rounded-md bg-paper p-4"><p class="text-2xl font-black">4.08</p><p class="text-sm font-bold text-muted">GPA / 4.5</p></div>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={`${base}assets/resume/Yoo_Seungmin_Korean_Resume_v1.pdf`} class="rounded-md bg-ink px-5 py-3 text-sm font-black text-white">Download PDF</a>
+          <a href={`${base}assets/resume/Yoo_Seungmin_Korean_Resume_v1_editable.docx`} class="rounded-md border border-line px-5 py-3 text-sm font-black text-ink">Download DOCX</a>
+          <a href="mailto:yc1576@smail.kongju.ac.kr" class="rounded-md border border-line px-5 py-3 text-sm font-black text-ink">Email</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

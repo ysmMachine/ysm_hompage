@@ -1,0 +1,154 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import ResearchCard from "../components/ResearchCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import NoteCard from "../components/NoteCard.astro";
+import FigureBlock from "../components/FigureBlock.astro";
+
+const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const research = (await getCollection("research")).sort((a, b) => a.data.order - b.data.order);
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+const notes = (await getCollection("notes")).sort((a, b) => a.data.order - b.data.order).slice(0, 2);
+const href = (path) => `${base}${path}`;
+---
+
+<BaseLayout>
+  <Hero />
+
+  <section id="research" class="mx-auto max-w-6xl px-5 py-14">
+    <div class="mb-8 max-w-3xl">
+      <p class="text-sm font-black uppercase tracking-[0.18em] text-accent">Research Highlights</p>
+      <h2 class="mt-3 text-3xl font-black text-ink">논문 성과를 case study처럼 읽히게</h2>
+      <p class="mt-3 leading-7 text-muted">첫 번째 증거는 MicroForest입니다. 구조 figure, 수치 성과, 역할을 한 화면에서 바로 확인할 수 있게 배치했습니다.</p>
+    </div>
+    <ResearchCard
+      title="MicroForest"
+      subtitle="Lightweight Bottleneck Prediction for Manufacturing Processes on Edge Devices"
+      summary="제조 공정의 다중 병목 예측을 위해 여러 Random Forest에서 정보 획득량이 높은 split rule을 추출하고 compact MicroTree들로 재구성한 경량 예측 모델입니다."
+      href={href("research/microforest/")}
+      image={href("assets/papers/microforest-overview.png")}
+      metrics={["+34%p recall vs RF", "Up to 7.2x faster latency", "Two orders smaller", "Evaluated up to 150 tasks"]}
+      tags={["MDPI Applied Sciences, 2025", "Role: Conceptualization · Methodology · Software · Original Draft"]}
+    />
+  </section>
+
+  <section class="border-y border-line bg-white">
+    <div class="mx-auto max-w-6xl px-5 py-14">
+      <div class="mb-8 max-w-3xl">
+        <p class="text-sm font-black uppercase tracking-[0.18em] text-teal">Research Evolution</p>
+        <h2 class="mt-3 text-3xl font-black text-ink">MicroTree에서 MicroForest로 확장</h2>
+        <p class="mt-3 leading-7 text-muted">단일 태스크 초경량 tree에서 다중 태스크 compact forest로 확장된 흐름을 before/after로 보여줍니다.</p>
+      </div>
+      <div class="grid gap-5 lg:grid-cols-[1fr_auto_1fr] lg:items-stretch">
+        <div class="rounded-lg border border-line bg-paper p-5">
+          <p class="text-sm font-black text-accent">Before: MicroTree</p>
+          <h3 class="mt-2 text-2xl font-black text-ink">Single-task bottleneck prediction</h3>
+          <p class="mt-3 leading-7 text-slate-700">Random Forest를 초소형 단일 tree로 압축해 임베디드 환경에서 빠르게 병목을 예측합니다.</p>
+          <div class="mt-4 grid gap-2 sm:grid-cols-2">
+            <span class="rounded-md bg-white px-3 py-2 text-sm font-black">8,800x smaller</span>
+            <span class="rounded-md bg-white px-3 py-2 text-sm font-black">15,000x faster</span>
+          </div>
+          <img src={href("assets/papers/microtree-flow.png")} alt="MicroTree flow" class="mt-5 max-h-[390px] w-full rounded-md border border-line bg-white object-contain p-3" />
+        </div>
+        <div class="hidden items-center px-2 text-3xl font-black text-accent lg:flex">→</div>
+        <div class="rounded-lg border border-line bg-paper p-5">
+          <p class="text-sm font-black text-teal">After: MicroForest</p>
+          <h3 class="mt-2 text-2xl font-black text-ink">Multi-task bottleneck prediction</h3>
+          <p class="mt-3 leading-7 text-slate-700">여러 RF에서 split pool을 만들고 여러 MicroTree를 결합해 150-task simulation까지 확장합니다.</p>
+          <div class="mt-4 grid gap-2 sm:grid-cols-2">
+            <span class="rounded-md bg-white px-3 py-2 text-sm font-black">Split Pool</span>
+            <span class="rounded-md bg-white px-3 py-2 text-sm font-black">Scalable edge inference</span>
+          </div>
+          <img src={href("assets/papers/microforest-overview.png")} alt="MicroForest overview" class="mt-5 w-full rounded-md border border-line bg-white object-contain p-3" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-14">
+    <div class="mb-8 max-w-3xl">
+      <p class="text-sm font-black uppercase tracking-[0.18em] text-accent">Applied AI Pipeline</p>
+      <h2 class="mt-3 text-3xl font-black text-ink">DentalAI: 의료영상 파이프라인 구현 증거</h2>
+      <p class="mt-3 leading-7 text-muted">알고리즘 설계형 연구뿐 아니라, detection-segmentation-filtering-RBL 계산까지 이어지는 end-to-end 구현 경험을 보여줍니다.</p>
+    </div>
+    <FigureBlock
+      src={href("assets/papers/dental-pipeline.png")}
+      alt="DentalAI pipeline"
+      caption="DentalAI pipeline: detection, segmentation & filtering, jaw separation, CEJ/alveolar bone line extraction, RBL calculation."
+    />
+    <div class="mt-5 grid gap-4 md:grid-cols-3">
+      {["YOLOv8 Detection", "SegFormer Segmentation", "Impacted Tooth Filtering"].map((item) => (
+        <div class="rounded-lg border border-line bg-white p-4 shadow-sm">
+          <p class="text-sm font-black text-ink">{item}</p>
+          <p class="mt-2 text-sm leading-6 text-muted">의료영상 분석 단계의 입력을 정제하고, 진단 계산에 필요한 근거를 다음 단계로 전달합니다.</p>
+        </div>
+      ))}
+    </div>
+    <div class="mt-5 grid gap-5 lg:grid-cols-[1fr_0.72fr]">
+      <div class="rounded-lg border border-line bg-white p-5 shadow-sm">
+        <p class="text-xs font-black uppercase tracking-[0.18em] text-teal">Pipeline Stepper</p>
+        <div class="mt-4 flex flex-wrap gap-2 text-sm font-black text-slate-700">
+          {["X-ray", "Detection", "Segmentation", "Filtering", "Jaw Separation", "Line Extraction", "RBL", "Severity"].map((step) => (
+            <span class="rounded-md bg-paper px-3 py-2">{step}</span>
+          ))}
+        </div>
+      </div>
+      <FigureBlock
+        src={href("assets/papers/dental-rbl.png")}
+        alt="DentalAI RBL calculation"
+        caption="RBL calculation example: CEJ and alveolar bone lines provide visual evidence for diagnosis."
+      />
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-white">
+    <div class="mx-auto max-w-6xl px-5 py-14">
+      <div class="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-sm font-black uppercase tracking-[0.18em] text-accent">Selected Projects</p>
+          <h2 class="mt-3 text-3xl font-black text-ink">논문과 구현물을 분리해서 보여주기</h2>
+        </div>
+        <a href={href("projects/")} class="text-sm font-black text-accent">All projects -></a>
+      </div>
+      <div class="grid gap-5 lg:grid-cols-3">
+        <ProjectCard title="Manufacturing Network Simulator" problem="미래 병목 label을 만들 데이터 생성 환경이 필요했습니다." build="DAG 생산 네트워크, cycle-level 생산량, buffer occupancy, bottleneck state 기록을 구현했습니다." role="Simulator design & experiment support" evidence="MicroTree / MicroForest training basis" stack={["Python", "DAG", "Simulation"]} href={href("projects/manufacturing-simulator/")} />
+        <ProjectCard title="MicroForest System" problem="task 수가 늘수록 RF 기반 예측 시스템의 모델 크기와 지연이 커졌습니다." build="high-information-gain split 추출, Split Pool, MicroTree construction을 연결했습니다." role="Methodology & software" evidence="Applied Sciences journal" stack={["scikit-learn", "Compression", "Edge AI"]} href={href("projects/microforest-system/")} />
+        <ProjectCard title="DentalAI Corporate Project" problem="파노라마 X-ray 진단 근거를 자동 계산하는 pipeline이 필요했습니다." build="라벨링, ROI 정제, segmentation, filtering, RBL 계산 및 시각화를 수행했습니다." role="Pipeline implementation" evidence="Pipeline and RBL figures" stack={["YOLOv8", "SegFormer", "OpenCV"]} href={href("projects/dental-ai-corporate/")} />
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-14">
+    <div class="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+      <div class="rounded-lg border border-line bg-white p-5 shadow-sm">
+        <p class="text-sm font-black uppercase tracking-[0.18em] text-accent">Selected Honors</p>
+        <div class="mt-5 space-y-4">
+          <p><strong>TOPCIT Chief of Naval Operations Award</strong><br /><span class="text-sm text-muted">대학생 부문 7,887명 규모 전국 단위 SW 역량 평가 성적우수상</span></p>
+          <p><strong>TOPCIT Campus 1st Place</strong><br /><span class="text-sm text-muted">공주대학교 총장상</span></p>
+          <p><strong>WCRC Logistics Robot Competition</strong><br /><span class="text-sm text-muted">서울창조경제혁신센터 대표이사상</span></p>
+          <p><strong>SW Mileage 1st Place & CES 2025</strong><br /><span class="text-sm text-muted">공주대 SW마일리지 1위 및 CES 참가자 선정</span></p>
+        </div>
+      </div>
+      <div class="rounded-lg border border-line bg-white p-5 shadow-sm">
+        <p class="text-sm font-black uppercase tracking-[0.18em] text-teal">Recent Lab Notes</p>
+        <div class="mt-5 grid gap-4 md:grid-cols-2">
+          {notes.map((note) => (
+            <NoteCard title={note.data.title} question={note.data.question} summary={note.data.summary} evidence={note.data.evidence} href={href(`notes/${note.slug}/`)} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 pb-16">
+    <div class="rounded-lg bg-ink p-6 text-white md:flex md:items-center md:justify-between">
+      <div>
+        <p class="text-sm font-black uppercase tracking-[0.18em] text-blue-200">Contact / Resume</p>
+        <h2 class="mt-3 text-2xl font-black">연구 성과, 구현 경험, 학습 로그를 계속 업데이트합니다.</h2>
+      </div>
+      <a href={href("resume/")} class="mt-5 inline-flex rounded-md bg-white px-5 py-3 text-sm font-black text-ink md:mt-0">Resume page</a>
+    </div>
+  </section>
+</BaseLayout>

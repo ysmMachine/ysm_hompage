@@ -1,0 +1,32 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import FigureBlock from "../components/FigureBlock.astro";
+
+const { frontmatter } = Astro.props;
+const image = frontmatter.image;
+const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title={`${frontmatter.title} | Yu Seungmin`} description={frontmatter.description}>
+  <section class="mx-auto max-w-5xl px-5 py-12">
+    <a href={`${base}research/`} class="text-sm font-black text-accent">← Research</a>
+    <p class="mt-8 text-sm font-black uppercase tracking-[0.18em] text-teal">Case Study</p>
+    <h1 class="mt-3 text-4xl font-black leading-tight text-ink">{frontmatter.title}</h1>
+    <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-700">{frontmatter.description}</p>
+    <div class="mt-6 flex flex-wrap gap-2">
+      {frontmatter.tags.map((tag) => <span class="rounded-md bg-white px-3 py-1 text-xs font-black text-slate-600 ring-1 ring-line">{tag}</span>)}
+    </div>
+    {image && (
+      <div class="mt-10">
+        <FigureBlock
+          src={`${base}${image}`}
+          alt={`${frontmatter.title} figure`}
+          caption={frontmatter.summary}
+        />
+      </div>
+    )}
+    <article class="prose-research mt-10 max-w-none rounded-lg border border-line bg-white p-6 shadow-sm">
+      <slot />
+    </article>
+  </section>
+</BaseLayout>

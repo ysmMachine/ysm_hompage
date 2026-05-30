@@ -1,0 +1,23 @@
+---
+title: "C++에서 전략 객체를 어떻게 분리할까?"
+description: "Predictor 교체를 쉽게 만들기 위한 strategy pattern 적용 기록"
+summary: "if-else 기반 predictor 선택을 다형성 기반 registry로 바꾸는 engineering log."
+date: "2026-05-01"
+tags: ["C++", "Design Pattern"]
+question: "El Farol Bar Simulator에서 예측 전략을 쉽게 교체하려면 어떻게 설계해야 할까?"
+evidence: "predictor registry refactor"
+order: 1
+---
+
+## Attempt
+
+BasePredictor 인터페이스를 만들고 RandomPredictor, MeanPredictor를 분리했다.
+
+## Mistake
+
+초기에는 if-else 기반 분기로 구현해 전략이 늘어날수록 simulator core가 함께 복잡해졌다.
+
+## Fix
+
+다형성 기반 predictor registry로 변경해 전략 추가와 실행 흐름을 분리했다.
+

@@ -1,0 +1,41 @@
+---
+interface Props {
+  title: string;
+  problem: string;
+  build: string;
+  role: string;
+  evidence: string;
+  stack: string[];
+  href: string;
+}
+
+const { title, problem, build, role, evidence, stack, href } = Astro.props;
+---
+
+<article class="rounded-lg border border-line bg-white p-5 shadow-sm">
+  <h3 class="text-xl font-black text-ink">{title}</h3>
+  <div class="mt-5 space-y-4">
+    <div>
+      <p class="text-xs font-black uppercase tracking-[0.16em] text-accent">Problem</p>
+      <p class="mt-1 text-sm leading-6 text-slate-700">{problem}</p>
+    </div>
+    <div>
+      <p class="text-xs font-black uppercase tracking-[0.16em] text-teal">Build</p>
+      <p class="mt-1 text-sm leading-6 text-slate-700">{build}</p>
+    </div>
+    <div class="grid gap-3 sm:grid-cols-2">
+      <div class="rounded-md bg-paper p-3 text-sm">
+        <span class="font-black text-ink">My Role</span>
+        <p class="mt-1 text-muted">{role}</p>
+      </div>
+      <div class="rounded-md bg-paper p-3 text-sm">
+        <span class="font-black text-ink">Evidence</span>
+        <p class="mt-1 text-muted">{evidence}</p>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5 flex flex-wrap gap-2">
+    {stack.map((item) => <span class="rounded-md border border-line px-2 py-1 text-xs font-bold text-slate-600">{item}</span>)}
+  </div>
+  <a href={href} class="mt-5 inline-flex text-sm font-black text-accent">Read project -></a>
+</article>

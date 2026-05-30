@@ -1,0 +1,43 @@
+---
+import MetricCard from "./MetricCard.astro";
+
+const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<section class="mx-auto grid max-w-6xl gap-8 px-5 pb-14 pt-12 lg:grid-cols-[1fr_0.9fr] lg:pb-20 lg:pt-16">
+  <div class="flex flex-col justify-center">
+    <p class="text-sm font-black uppercase tracking-[0.18em] text-accent">Edge AI & Applied ML Lab Notebook</p>
+    <h1 class="mt-4 text-4xl font-black leading-tight text-ink sm:text-5xl">
+      Yu Seungmin
+      <span class="block text-2xl font-extrabold text-slate-700 sm:text-3xl">Edge AI & Applied Machine Learning Builder</span>
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-700">
+      제한된 환경에서도 동작하는 경량 AI 모델과 현실 문제 해결형 머신러닝 파이프라인을 연구하고 구현합니다.
+    </p>
+    <p class="mt-3 max-w-2xl text-base leading-7 text-muted">
+      I build lightweight AI systems that turn complex real-world processes into measurable prediction problems.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href={`${base}research/`} class="rounded-md bg-ink px-5 py-3 text-sm font-black text-white shadow-soft transition hover:bg-accent">대표 연구 보기</a>
+      <a href={`${base}resume/`} class="rounded-md border border-line bg-white px-5 py-3 text-sm font-black text-ink transition hover:border-accent hover:text-accent">이력서</a>
+      <a href="https://github.com/seowool55" class="rounded-md border border-line bg-white px-5 py-3 text-sm font-black text-ink transition hover:border-accent hover:text-accent">GitHub</a>
+    </div>
+    <div class="mt-8 grid gap-3 sm:grid-cols-4">
+      <MetricCard value="3" label="Papers" detail="Research outputs" />
+      <MetricCard value="1" label="Journal" detail="Applied Sciences, 2025" />
+      <MetricCard value="TOPCIT" label="Award" detail="National SW evaluation" />
+      <MetricCard value="4.08" label="GPA" detail="4.5 scale" />
+    </div>
+  </div>
+  <div class="relative min-h-[520px] overflow-hidden rounded-lg border border-line bg-white shadow-soft evidence-grid">
+    <img src={`${base}assets/papers/microforest-overview.png`} alt="MicroForest overview preview" class="absolute inset-0 h-full w-full object-cover opacity-70 blur-[0.4px]" />
+    <div class="absolute inset-0 bg-gradient-to-br from-white/20 via-white/55 to-white/88"></div>
+    <div class="absolute bottom-0 left-0 right-0 border-t border-line bg-white/92 p-5 backdrop-blur">
+      <p class="text-xs font-black uppercase tracking-[0.18em] text-accent">Featured Evidence</p>
+      <h2 class="mt-2 text-xl font-black text-ink">MicroForest: compact multi-task bottleneck prediction</h2>
+      <p class="mt-2 text-sm leading-6 text-muted">
+        Baseline RFs -> Split Pool -> MTConstructor -> MicroForest. A research-board preview of the architecture behind the journal paper.
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+title: "MicroForest Bottleneck Prediction System"
+description: "여러 task별 Random Forest에서 split rule을 추출해 다중 병목 예측을 수행하는 시스템"
+summary: "A lightweight prediction system that reconstructs compact MicroTrees from high-information-gain split rules."
+date: "2025-01-01"
+tags: ["Scikit-learn", "Model Compression", "Edge AI"]
+image: "assets/papers/microforest-overview.png"
+order: 2
+---
+
+## Problem
+
+다중 task 병목 예측에서는 task 수가 증가할수록 Random Forest 기반 모델의 크기와 추론 지연이 커집니다.
+
+## Build
+
+task별 Random Forest에서 high-information-gain split을 추출하고, Split Pool을 구성한 뒤 MicroTree들을 생성해 MicroForest로 결합했습니다.
+
+## Evidence
+
+MDPI Applied Sciences 2025 논문 실험에서 최대 150개 생산 task까지 평가했습니다.
+

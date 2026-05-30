@@ -1,0 +1,37 @@
+---
+title: "MicroTree"
+description: "Single-task bottleneck prediction with an ultra-compact decision tree"
+summary: "MicroTree construction flow extracted from the ISET paper: RF decision nodes become compact split-rule candidates."
+date: "2024-10-01"
+tags: ["ISET", "Model Compression", "Manufacturing AI"]
+image: "assets/papers/microtree-flow.png"
+order: 2
+---
+
+## Overview
+
+MicroTree는 임베디드 환경에서 제조 공정 병목을 예측하기 위한 단일 태스크 초경량 tree 모델입니다. Random Forest에서 의사결정 노드를 추출하고 정보 획득량을 기준으로 핵심 split만 남겨 작은 tree를 구성합니다.
+
+## Problem
+
+제조 현장의 edge device는 메모리와 연산량이 제한적입니다. Random Forest는 예측력은 좋지만 추론 비용이 커서 실시간 병목 예측에 부담이 됩니다.
+
+## Method
+
+Random Forest의 decision node에서 left child, right child, feature, threshold를 추출하고 정보 획득량을 계산합니다. 기준값을 넘는 split만 MicroTree node로 초기화해 작고 빠른 모델을 만듭니다.
+
+## Results
+
+- 8,800x smaller model size
+- 15,000x faster inference
+- F1-score 0.80
+- 20 tasks, 3,000 scenarios, 10,000 cycle experiments
+
+## Research Evolution
+
+MicroTree는 단일 태스크 병목 예측을 위한 시작점이었습니다. 이후 여러 task별 RF에서 split rule을 모으고 여러 MicroTree를 구성하는 MicroForest로 확장했습니다.
+
+## What I Learned
+
+모델 경량화는 성능 손실을 감수하는 작업이 아니라, 문제 구조를 이해해 불필요한 decision path를 제거하는 설계 문제라는 점을 배웠습니다.
+

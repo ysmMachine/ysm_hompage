@@ -1,0 +1,33 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  summary: string;
+  href: string;
+  image: string;
+  metrics: string[];
+  tags?: string[];
+}
+
+const { title, subtitle, summary, href, image, metrics, tags = [] } = Astro.props;
+---
+
+<article class="grid gap-6 rounded-lg border border-line bg-white p-5 shadow-sm lg:grid-cols-[1.05fr_0.95fr]">
+  <div>
+    <div class="flex flex-wrap gap-2">
+      {tags.map((tag) => <span class="rounded-md bg-slate-100 px-2 py-1 text-xs font-bold text-slate-600">{tag}</span>)}
+    </div>
+    <h3 class="mt-4 text-2xl font-black text-ink">{title}</h3>
+    <p class="mt-1 text-sm font-bold text-accent">{subtitle}</p>
+    <p class="mt-4 leading-7 text-slate-700">{summary}</p>
+    <div class="mt-5 grid gap-2 sm:grid-cols-2">
+      {metrics.map((metric) => (
+        <div class="rounded-md border border-line bg-paper px-3 py-2 text-sm font-extrabold text-ink">{metric}</div>
+      ))}
+    </div>
+    <a href={href} class="mt-5 inline-flex rounded-md bg-ink px-4 py-2 text-sm font-black text-white transition hover:bg-accent">
+      Case Study
+    </a>
+  </div>
+  <img src={image} alt={`${title} figure`} class="h-full min-h-72 w-full rounded-md border border-line object-cover" loading="lazy" />
+</article>

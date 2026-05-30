@@ -1,0 +1,20 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption: string;
+  framed?: boolean;
+}
+
+const { src, alt, caption, framed = true } = Astro.props;
+---
+
+<figure class:list={[
+  "overflow-hidden rounded-lg border border-line bg-white",
+  framed ? "shadow-sm" : ""
+]}>
+  <img src={src} alt={alt} class="w-full object-cover" loading="lazy" />
+  <figcaption class="border-t border-line bg-slate-50 px-4 py-3 text-xs leading-5 text-muted">
+    {caption}
+  </figcaption>
+</figure>

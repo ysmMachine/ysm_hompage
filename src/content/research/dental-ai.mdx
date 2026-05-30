@@ -1,0 +1,41 @@
+---
+title: "DentalAI"
+description: "Periodontitis Diagnosis Pipeline with Impacted Tooth Filtering"
+summary: "DentalAI pipeline: detection, segmentation, filtering, jaw separation, line extraction, RBL calculation, and severity visualization."
+date: "2024-12-01"
+tags: ["Medical Image Analysis", "YOLOv8", "SegFormer"]
+image: "assets/papers/dental-pipeline.png"
+order: 3
+---
+
+## Overview
+
+DentalAI는 파노라마 X-ray에서 치아 검출, 치아 분할, 매복치 필터링, 상·하악 분리, 라인 추출, RBL 계산으로 이어지는 치주염 진단 AI 파이프라인입니다.
+
+## Problem
+
+치주염 진단에서는 치아별 CEJ와 alveolar bone line의 위치 관계가 중요합니다. 하지만 파노라마 X-ray에는 매복치, ROI 노이즈, 상·하악 혼재 등 자동 분석을 어렵게 만드는 요소가 많습니다.
+
+## Method
+
+YOLOv8로 개별 치아 bounding box를 검출하고 SegFormer로 ROI 치아 마스크를 생성합니다. 매복치를 별도 클래스로 분류해 분석 대상에서 제외한 뒤 jaw separation, line extraction, RBL calculation을 수행합니다.
+
+## Pipeline
+
+- Panoramic X-ray
+- YOLOv8 Detection
+- SegFormer Segmentation
+- Impacted Tooth Filtering
+- Jaw Separation
+- Line Extraction
+- RBL Calculation
+- Severity Visualization
+
+## My Role
+
+라벨링, detection 기반 ROI 정제, segmentation, 매복치 filtering, RBL 계산 및 진단 시각화 파이프라인 구현을 수행했습니다.
+
+## What I Learned
+
+의료영상 AI에서는 모델 정확도뿐 아니라 분석 대상 제외 기준, ROI 정제, 시각화 근거가 중요했습니다. 특히 매복치 filtering은 진단 신뢰도 보정에 직접 연결되는 단계였습니다.
+

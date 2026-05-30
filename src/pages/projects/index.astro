@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+
+const base = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Projects | Yu Seungmin">
+  <section class="mx-auto max-w-6xl px-5 py-12">
+    <p class="text-sm font-black uppercase tracking-[0.18em] text-accent">Projects</p>
+    <h1 class="mt-3 text-4xl font-black text-ink">Implementation Evidence</h1>
+    <p class="mt-4 max-w-3xl leading-7 text-muted">Research는 논문 성과를, Projects는 실제 구현 역할과 시스템 구성을 중심으로 보여줍니다.</p>
+    <div class="mt-10 grid gap-5 lg:grid-cols-3">
+      {projects.map((project) => (
+        <ProjectCard
+          title={project.data.title}
+          problem={project.data.description}
+          build={project.data.summary}
+          role="Design · Software · Experiment"
+          evidence={project.data.tags.join(" / ")}
+          stack={project.data.tags}
+          href={`${base}projects/${project.slug}/`}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

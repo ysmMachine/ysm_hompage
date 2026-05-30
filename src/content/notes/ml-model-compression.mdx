@@ -1,0 +1,23 @@
+---
+title: "Random Forest를 작게 만들 때 무엇을 남겨야 할까?"
+description: "MicroTree와 MicroForest 실험에서 정리한 split rule selection 기록"
+summary: "Model size를 줄이면서 recall을 유지하기 위한 high-information-gain split selection note."
+date: "2026-05-10"
+tags: ["Machine Learning", "Compression"]
+question: "Random Forest의 많은 decision node 중 edge 모델에 남길 정보는 무엇인가?"
+evidence: "MicroTree / MicroForest experiments"
+order: 2
+---
+
+## Attempt
+
+Random Forest의 split rule을 feature-threshold pair로 추출하고 정보 획득량 기준으로 정렬했다.
+
+## Mistake
+
+처음에는 tree depth나 node count만 줄이면 된다고 생각했지만, 중요도가 낮은 split을 남기면 모델이 작아져도 예측 품질이 흔들렸다.
+
+## Fix
+
+high-information-gain split 중심으로 후보 pool을 만들고, task별 MicroTree construction에 재사용했다.
+
